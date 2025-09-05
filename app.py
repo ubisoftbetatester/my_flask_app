@@ -184,4 +184,4 @@ def view_history(section):
     return render_template("history.html", changes=changes)
 
 if __name__ == "__main__":
-    init_db()
+    
