@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Ostatní</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Ostatní</h2>
+
+{% if role in ['edit','superuser'] %}
+<form method="post" action="{{ url_for('edit_record', section='others', id=0) }}">
+    <input type="text" name="content" placeholder="Zadej text" required>
+    <select name="resolved">
+        <option value="no" selected>Ne</option>
+        <option value="yes">Ano</option>
+    </select>
+    <button type="submit">Uložit</button>
+</form>
+{% endif %}
+
+<table>
+<tr><th>Text</th><th>Vyřízeno</th><th>Akce</th></tr>
+{% for o in others %}
+<tr>
+    <td>{{ o[1] }}</td>
+    <td>{{ "Ano" if o[2] else "Ne" }}</td>
+    <td>
+        {% if role in ['edit','superuser'] %}
+        <a href="{{ url_for('edit_record', section='others', id=o[0]) }}">Upravit</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% if role in ['edit','superuser'] %}
+<form action="{{ url_for('view_history', section='others') }}">
+    <button type="submit">Historie změn</button>
+</form>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}">Zpět</a>
+</body>
+</html>
