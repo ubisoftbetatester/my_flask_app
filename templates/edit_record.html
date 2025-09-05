@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Upravit záznam</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Upravit záznam - {{ section }}</h2>
+
+<form method="post">
+{% if section == 'missing_material' %}
+    <input type="text" name="code" value="{{ record[1] }}">
+    <input type="text" name="quantity" value="{{ record[2] }}">
+    <input type="text" name="description" value="{{ record[3] }}">
+    <input type="text" name="delivery_time" value="{{ record[4] }}">
+    <input type="text" name="notes" value="{{ record[5] }}">
+    <select name="resolved">
+        <option value="no" {% if not record[6] %}selected{% endif %}>Ne</option>
+        <option value="yes" {% if record[6] %}selected{% endif %}>Ano</option>
+    </select>
+{% elif section == 'preparations' %}
+    <input type="text" name="code" value="{{ record[1] }}">
+    <input type="text" name="description" value="{{ record[2] }}">
+    <input type="text" name="notes" value="{{ record[3] }}">
+    <select name="resolved">
+        <option value="no" {% if not record[4] %}selected{% endif %}>Ne</option>
+        <option value="yes" {% if record[4] %}selected{% endif %}>Ano</option>
+    </select>
+{% elif section == 'others' %}
+    <input type="text" name="content" value="{{ record[1] }}">
+    <select name="resolved">
+        <option value="no" {% if not record[2] %}selected{% endif %}>Ne</option>
+        <option value="yes" {% if record[2] %}selected{% endif %}>Ano</option>
+    </select>
+{% endif %}
+    <button type="submit">Uložit úpravy</button>
+</form>
+
+<a href="{{ url_for(section) }}">Zpět</a>
+</body>
+</html>
