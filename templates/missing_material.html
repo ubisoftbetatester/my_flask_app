@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Chybějící materiál</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Chybějící materiál</h2>
+
+{% if role in ['edit','superuser'] %}
+<form method="post" action="{{ url_for('edit_record', section='missing_material', id=0) }}">
+    <input type="text" name="code" placeholder="Číslo materiálu" required>
+    <input type="text" name="quantity" placeholder="Počet kusů" required>
+    <input type="text" name="description" placeholder="Popis materiálu">
+    <select name="delivery_time">
+        <option>hned</option><option>10 minut</option><option>15 minut</option>
+        <option>30 minut</option><option>1 hodina</option><option>2 hodiny</option>
+        <option>před pauzou</option><option>po pauze</option>
+        <option>na odpolední směnu</option><option>na ranní směnu</option>
+        <option>na noční směnu</option>
+    </select>
+    <input type="text" name="notes" placeholder="Poznámky">
+    <select name="resolved">
+        <option value="no" selected>Ne</option>
+        <option value="yes">Ano</option>
+    </select>
+    <button type="submit">Uložit</button>
+</form>
+{% endif %}
+
+<table>
+<tr><th>Kód</th><th>Počet</th><th>Popis</th><th>Doprava</th><th>Poznámky</th><th>Vyřízeno</th><th>Akce</th></tr>
+{% for m in materials %}
+<tr>
+    <td>{{ m[1] }}</td>
+    <td>{{ m[2] }}</td>
+    <td>{{ m[3] }}</td>
+    <td>{{ m[4] }}</td>
+    <td>{{ m[5] }}</td>
+    <td>{{ "Ano" if m[6] else "Ne" }}</td>
+    <td>
+        {% if role in ['edit','superuser'] %}
+        <a href="{{ url_for('edit_record', section='missing_material', id=m[0]) }}">Upravit</a>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% if role in ['edit','superuser'] %}
+<form action="{{ url_for('view_history', section='missing_material') }}">
+    <button type="submit">Historie změn</button>
+</form>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}">Zpět</a>
+</body>
+</html>
