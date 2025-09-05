@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Přihlášení</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<h2>Přihlášení</h2>
+<form action="{{ url_for('login') }}" method="post">
+    <label>Přihlašovací kód:</label>
+    <input type="text" name="code" required>
+    <button type="submit">Přihlásit se</button>
+</form>
+</body>
+</html>
