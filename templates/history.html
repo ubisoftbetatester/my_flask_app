@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Historie změn</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+.added { color: green; font-weight: bold; }
+.removed { color: red; text-decoration: line-through; }
+pre { background-color: #f9f9f9; padding: 10px; border-radius: 5px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h2>Historie změn - {{ section_title }}</h2>
+
+{% for change in changes %}
+<div style="margin-bottom:20px;">
+    <strong>{{ change[6] }}</strong> – změnil uživatel <b>{{ change[7] }}</b>
+    <pre>
+{% for line in change[5].splitlines() %}
+{% if line.startswith('+') %}
+<span class="added">{{ line }}</span>
+{% elif line.startswith('-') %}
+<span class="removed">{{ line }}</span>
+{% else %}
+{{ line }}
+{% endif %}
+{% endfor %}
+    </pre>
+</div>
+{% endfor %}
+
+<a href="{{ url_for(section_page) }}">Zpět</a>
+</body>
+</html>
